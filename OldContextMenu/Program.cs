@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Win32; 
 using System.Diagnostics;
 
 Console.WriteLine("Let's change the context menu!");
@@ -7,27 +7,17 @@ Console.WriteLine("Let's change the context menu!");
 
 // HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32
 
-// Separerat för enklare copy paste: {86ca1aa0-34aa-4e8b-a509-50c905bae2a2}
-// InprocServer32
-
-//Default måste sättaas som ""
-
-//Man måste också starta om explorer.exe! 
-
-//Shouldn't be that hard
-
-//string guid = "{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}";
-//string Inproc = "InprocServer32";
-
 try
 {
-    Console.WriteLine(@"Skapar subkey HKCU\Software\Classes\CLSID\{ 86ca1aa0 -34aa - 4e8b - a509 - 50c905bae2a2}");
+    Console.WriteLine(@"Creating subkey HKCU\Software\Classes\CLSID\{ 86ca1aa0 -34aa - 4e8b - a509 - 50c905bae2a2}");
     RegistryKey keyG = Registry.CurrentUser.CreateSubKey(@"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}");
     keyG.Close();
 
-    Console.WriteLine(@"Skapar subkey HKCU\Software\Classes\CLSID\{ 86ca1aa0 -34aa - 4e8b - a509 - 50c905bae2a2}\InprocServer32");
+    //Maybe this can be run instead of the middle-step above...
+    Console.WriteLine(@"Creating subkey HKCU\Software\Classes\CLSID\{ 86ca1aa0 -34aa - 4e8b - a509 - 50c905bae2a2}\InprocServer32");
     RegistryKey keyIn = Registry.CurrentUser.CreateSubKey(@"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32");
 
+    //Adds the "(Default)" value and sets data to "" instead of "not defined" 
     keyIn.SetValue("", "");
     keyIn.Close();
 }
@@ -36,8 +26,10 @@ catch (Exception ex)
     Console.WriteLine(ex);
 }
 
+//Gets all processes with "eplorer" as name. Since there probably is only one. Is there a GetProcessByName? probably
 Process[] explorer = Process.GetProcessesByName("explorer");
 
+//kills Explorer.exe since needed for the context menu to update
 explorer[0].Kill();
 
 
@@ -46,4 +38,6 @@ process.StartInfo.FileName = "explorer";
 process.StartInfo.UseShellExecute = true;
 process.Start();
 
-Console.WriteLine("Alla värden satta och explorer omstartat. Testa högerklicka på någon fil ;)");
+Console.WriteLine("Added registry key to get the old context menu back. Try right-clicking a file!");
+
+Console.ReadKey();
