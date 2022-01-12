@@ -3,5 +3,6 @@ Simple C# app to add the registry key needed to get the old right-click menu bac
 
 
 To add:
-Cleanup...
-Add function to remove the registry key if it is set aka reverse change
+- Cleanup...
+
+- Add function to remove the registry key if it is set aka reverse change
