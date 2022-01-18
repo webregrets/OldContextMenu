@@ -1,18 +1,16 @@
-﻿using Microsoft.Win32; 
-using System.Diagnostics;
+﻿global using Microsoft.Win32; 
+global using System.Diagnostics;
 
-using OldContextMenu;
+global using OldContextMenu;
 
 
 bool ok = Functions.PreCheck();
 
+Console.WriteLine("Let's change the context menu!");
+
 if (ok)
 {
-
-    Console.WriteLine("Let's change the context menu!");
-
     RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32");
-
 
     if (key == null)
     {
@@ -38,7 +36,6 @@ if (ok)
     Console.WriteLine("This window closes in five seconds");
 
     System.Threading.Thread.Sleep(5000);
-
 }
 else
 {
